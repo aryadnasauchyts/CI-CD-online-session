@@ -10,6 +10,16 @@ pipeline {
       }
     }
 
+    stage('unit-test') {
+      steps {
+        script {
+          docker.build("${registry}:${env.Build_ID}").inside {
+            c -> sh 'python app_test.py'
+          }
+        }
+      }
+    }
+
     stage('Publish') {
       steps {
         script {
