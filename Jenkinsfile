@@ -67,6 +67,18 @@ pipeline {
       }
     }
 
+    stage('Deploy') {
+    steps{
+      sh "docker stop flask-app || true; docker rm flask-app || true; docker run -d --name flask-app -p 9000:9000 ${registry}:${env.BUILD_ID}"
+    }
+}
+stage('Validation') {
+  steps{
+    sh 'sleep 5; curl -i http://localhost:9000/test_string'
+  }
+}
+
+
   }
   environment {
     registry = 'asauchyts/flask-app'
