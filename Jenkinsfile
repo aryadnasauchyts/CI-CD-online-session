@@ -20,6 +20,16 @@ pipeline {
       }
     }
 
+    stage('http-test') {
+      steps {
+        script {
+          docker.build("${registry}:${env.Build_ID}").withRun('-p 9005:9000') {
+            c -> sh 'sleep 5; curl -i http://localhost:9005/test_string'
+          }
+        }
+      }
+    }
+
     stage('Publish') {
       steps {
         script {
