@@ -1,7 +1,7 @@
 pipeline {
   agent any
-
-  stage('Check Code Quality'){
+  stages {
+      stage('Check Code Quality'){
       steps{
         script{
           docker.image('python:3.9').inside { c->
@@ -26,8 +26,6 @@ pipeline {
       }
     }
 
-  
-  stages {
     stage('Build') {
       steps {
         script {
